@@ -1,0 +1,181 @@
+openapi: 3.0.0
+info:
+  title: Administracion de productos
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.0.1
+servers:
+  - url: http://api.example.com/v1
+    description: Optional server description, e.g. Main (production) server
+  - url: http://ambiente-api-dev.example.com
+    description: Optional server description, e.g. Internal staging server for testing
+  - url: http://ambiente-api-pruebas.example.com
+    description: Optional server description, e.g. Internal staging server for testing
+  - url: http://localhost
+    description: "Esta url es para hacer pruebas locales"
+paths:
+  /products:
+    post:
+      tags:
+        - "Productos"
+      summary: "Crear un producto nuevo"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                nombre:
+                  type: string
+                peso:
+                  type: number
+                  format: double
+                  example: 10.00
+                fechaLote:
+                  type: string
+                  format: date
+                fechaVencimiento:
+                  type: string
+                  format: date
+                precio:
+                  type: number
+                  format: double
+                  example: 100.00
+      responses:
+        '201':
+          description: "Created"
+        '400':
+          description: "Se presentó un error"
+        '500':
+          description: "Error en el servidor"
+    get:
+      summary: "Retornar la lista de productos"
+      responses:
+        '200':
+          description: "Consulta todos los productos creados"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    nombre:
+                      type: string
+                    peso:
+                      type: number
+                      format: double
+                      example: 10.00
+                    fechaLote:
+                      type: string
+                      format: date
+                    fechaVencimiento:
+                      type: string
+                      format: date
+                    precio:
+                      type: number
+                      format: double
+                      example: 100.00
+        '404':
+          description: "No hay productos creados"
+    put:
+      summary: "Cuando necesitamos actualizar un producto"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                nombre:
+                  type: string
+                peso:
+                  type: number
+                  format: double
+                  example: 10.00
+                fechaLote:
+                  type: string
+                  format: date
+                fechaVencimiento:
+                  type: string
+                  format: date
+                precio:
+                  type: number
+                  format: double
+                  example: 100.00
+      responses:
+        '200':
+          description: "Producto actualizado correctamente"
+        '400':
+          description: "Se presentó un error"
+        '500':
+          description: "Error en el servidor"
+    delete:
+      summary: "Cuando ya no tengo un producto"
+      parameters: 
+        - name: id
+          in: query
+          required: false
+          description: "El identificador del producto"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "El producto se borro correctamente"
+        '400':
+          description: "El id del producto no puede llegar vacío"
+  /products/{id}:
+    get:
+      summary: "Retomar un producto, consultando por su id"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Este parametro me ayuda a filtar el producto que necesito consultar"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Me responde la lista de productos creados"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  nombre:
+                    type: string
+                  peso:
+                    type: number
+                    format: double
+                    example: 10.00
+                  fechaLote:
+                    type: string
+                    format: date
+                  fechaVencimiento:
+                    type: string
+                    format: date
+                  precio:
+                    type: number
+                    format: double
+                    example: 100.00
+        '400':
+          description: "Se necesita el Id para consultar el producto"
+        '404':
+          description: "Producto no encontrado"
+        '500':
+          description: "Se presento un error en el servidor"
+        
+# Production
+# GET http://api.example.com/v1/users
+# dev
+# GET http://ambiente-api-dev.example.com/users
+# QA
+# GET http://ambiente-api-qa.example.com/users
