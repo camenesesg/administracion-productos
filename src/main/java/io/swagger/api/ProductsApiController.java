@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,9 +65,25 @@ public class ProductsApiController implements ProductsApi {
 
     public ResponseEntity<Void> productsPost(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Body body) {
 
-        productos.add(body);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+        // Here I'm reading the list of the products
+        for (int i = 0; i < productos.size(); i++) {
 
+            // Here I'm get the product at the i position
+            Body product = productos.get(i);
+
+            // Here I'm going to check if the id of the product that I want to save now is similar to the ids
+            // of the last products that I saved before.
+            if (body.getId().compareTo(product.getId()) == 0) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
+        // Here I'm going to control fechaLote is lower than fechaVencimiento
+        if (body.getFechaVencimiento().isBefore(body.getFechaLote())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        productos.add(body);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     public ResponseEntity<Void> productsPut(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Body body

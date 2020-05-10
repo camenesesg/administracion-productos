@@ -3,9 +3,12 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * Body
@@ -13,13 +16,16 @@ import javax.validation.Valid;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-01T17:53:10.032Z[GMT]")
 public class Body   {
+
   @JsonProperty("id")
   private String id = null;
 
   @JsonProperty("nombre")
+  @NotEmpty
   private String nombre = null;
 
   @JsonProperty("peso")
+  @Min(value = 0)
   private Double peso = null;
 
   @JsonProperty("fechaLote")
@@ -29,6 +35,7 @@ public class Body   {
   private LocalDate fechaVencimiento = null;
 
   @JsonProperty("precio")
+  @Min(value = 0)
   private Double precio = null;
 
   public Body id(String id) {

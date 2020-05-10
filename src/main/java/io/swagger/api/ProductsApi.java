@@ -56,8 +56,8 @@ public interface ProductsApi {
 
     @ApiOperation(value = "Crear un producto nuevo", nickname = "productsPost", notes = "", tags={ "Productos", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 400, message = "Se presentó un error"),
+        @ApiResponse(code = 201, message = "Created"), // We did it last weekend
+        @ApiResponse(code = 400, message = "Se presentó un error", response = ApiResponseMessage.class), // We are going develop this one
         @ApiResponse(code = 500, message = "Error en el servidor") })
     @RequestMapping(value = "/products",
         consumes = { "application/json" },
